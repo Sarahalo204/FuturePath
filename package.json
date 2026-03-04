@@ -1,0 +1,48 @@
+{
+  "name": "smartpathai",
+  "version": "1.0.0",
+  "description": "AI-powered educational platform for personalized learning paths.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "education",
+    "ai",
+    "learning-path"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@auth/prisma-adapter": "^2.11.1",
+    "@prisma/client": "^6.19.2",
+    "@tailwindcss/postcss": "^4.2.1",
+    "autoprefixer": "^10.4.27",
+    "bcryptjs": "^3.0.3",
+    "clsx": "^2.1.1",
+    "eslint": "^9.39.3",
+    "eslint-config-next": "^16.1.6",
+    "framer-motion": "^12.34.4",
+    "lucide-react": "^0.576.0",
+    "next": "^16.1.6",
+    "next-auth": "^5.0.0-beta.25",
+    "next-intl": "^4.8.3",
+    "postcss": "^8.5.6",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "tailwind-merge": "^3.5.0",
+    "tailwindcss": "^4.2.1",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^25.3.3",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "prisma": "^6.19.2"
+  }
+}

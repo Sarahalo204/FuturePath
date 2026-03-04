@@ -1,0 +1,20 @@
+# FuturePath AI - Requirements
+
+## Core Tech Stack
+- **Framework**: Next.js 16.1.6 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React
+- **Animations**: Framer Motion
+- **Internationalization**: next-intl
+- **Authentication**: NextAuth.js (Auth.js)
+- **Database**: Prisma ORM (SQLite/PostgreSQL)
+- **Backend API**: Next.js Route Handlers
+- **AI Integration**: OpenRouter API (Gemini 2.0 Flash)
+
+## Features
+- AI-Driven Diagnostic Assessments
+- Subject-Specific Personalised Learning Roadmaps
+- Multi-language Support (English/Arabic)
+- University Major Predictor (Gated by performance metrics)
+- Modern EdTech Dashboard & Profile Management

@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  STUDENT
+  ADMIN
+}
+
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  password      String         // For robust authentication
+  name          String?
+  role          Role           @default(STUDENT)
+  submissions   Submission[]
+  learningPaths LearningPath[]
+  careerPath    CareerPath?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model Subject {
+  id            String         @id @default(cuid())
+  nameEn        String         @unique // English name
+  nameAr        String         // Arabic name
+  descriptionEn String?        @db.Text
+  descriptionAr String?        @db.Text
+  isEnabled     Boolean        @default(true)
+  quizzes       Quiz[]
+  submissions   Submission[]
+  learningPaths LearningPath[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model Quiz {
+  id          String       @id @default(cuid())
+  subjectId   String
+  subject     Subject      @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  questions   Json         // AI-generated quiz questions
+  submissions Submission[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Submission {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subjectId   String
+  subject     Subject  @relation(fields: [subjectId], references: [id])
+  quizId      String
+  quiz        Quiz     @relation(fields: [quizId], references: [id])
+  score       Float
+  answers     Json     // User answers
+  analysis    Json     // AI analysis of results
+  createdAt   DateTime @default(now())
+}
+
+model LearningPath {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subjectId   String
+  subject     Subject  @relation(fields: [subjectId], references: [id])
+  roadmap     Json     // Optimized sequence of topics for this subject
+  resources   Json     // Materials and links
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, subjectId])
+}
+
+model CareerPath {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  majorEn       String   // Suggested Major (EN)
+  majorAr       String   // Suggested Major (AR)
+  descriptionEn String   @db.Text
+  descriptionAr String   @db.Text
+  dataPoints    Json     // Aggregated data for the prediction
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

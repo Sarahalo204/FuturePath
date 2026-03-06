@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { CheckCircle2, XCircle, ArrowRight, BookOpen, Target, Sparkles } from "lucide-react";
 import { Link } from "@/navigation";
 import { notFound } from "next/navigation";
+import BackButton from "@/components/BackButton";
 
 export default async function DiagnosticResultsPage({ params }: { params: Promise<{ id: string, locale: string }> }) {
     const { id, locale } = await params;
@@ -26,6 +27,9 @@ export default async function DiagnosticResultsPage({ params }: { params: Promis
 
     return (
         <div className="min-h-screen pt-24 pb-20 px-6 max-w-5xl mx-auto space-y-12">
+            <div className="py-4">
+                <BackButton />
+            </div>
             {/* Header / Score Display */}
             <div className="glass-panel p-10 md:p-16 text-center space-y-8 bg-white/80 border-slate-200/60 shadow-xl overflow-hidden relative">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-emerald-500" />

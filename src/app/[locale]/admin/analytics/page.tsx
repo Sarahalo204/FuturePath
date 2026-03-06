@@ -115,19 +115,19 @@ export default function AnalyticsPage() {
                 <table className="w-full text-left">
                     <thead className="bg-slate-50 border-b border-slate-200">
                         <tr>
-                            <th className="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest">{t("table.student")}</th>
-                            <th className="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest">{t("table.subject")}</th>
-                            <th className="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest text-center">{t("table.score")}</th>
-                            <th className="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest">{t("table.date")}</th>
-                            <th className="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest text-right">{t("table.details")}</th>
+                            <th className="px-8 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest text-left">{t("table.student")}</th>
+                            <th className="px-8 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest text-left">{t("table.subject")}</th>
+                            <th className="px-8 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest text-center">{t("table.score")}</th>
+                            <th className="px-8 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest text-center">{t("table.date")}</th>
+                            <th className="px-8 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest text-right">{t("table.details")}</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
                         <AnimatePresence mode="popLayout">
                             {loading ? (
                                 <tr>
-                                    <td colSpan={5} className="px-6 py-12 text-center">
-                                        <Loader2 className="w-8 h-8 text-blue-600 animate-spin mx-auto" />
+                                    <td colSpan={5} className="px-8 py-16 text-center">
+                                        <Loader2 className="w-10 h-10 text-blue-600 animate-spin mx-auto" />
                                     </td>
                                 </tr>
                             ) : submissions.map((sub, idx) => (
@@ -136,9 +136,9 @@ export default function AnalyticsPage() {
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: idx * 0.05 }}
-                                    className="hover:bg-slate-50/50 transition-colors"
+                                    className="hover:bg-slate-50/50 transition-colors group"
                                 >
-                                    <td className="px-6 py-4">
+                                    <td className="px-8 py-5">
                                         <div className="flex flex-col">
                                             <span className="font-bold text-slate-700">{sub.user.name}</span>
                                             <span className="text-xs text-slate-400">{sub.user.email}</span>
@@ -155,7 +155,7 @@ export default function AnalyticsPage() {
                                             {sub.score}%
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4 text-sm font-bold text-slate-500">
+                                    <td className="px-6 py-4 text-sm font-bold text-slate-500 text-center">
                                         {new Date(sub.createdAt).toLocaleDateString(locale)}
                                     </td>
                                     <td className="px-6 py-4 text-right">

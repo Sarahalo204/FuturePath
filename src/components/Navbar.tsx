@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
 import { GraduationCap, Search, Bell, User, LogIn } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
+import ProfileDropdown from "./ProfileDropdown";
 
 export default function Navbar() {
     const { data: session } = useSession();
@@ -18,7 +19,7 @@ export default function Navbar() {
                         <GraduationCap className="text-white w-6 h-6" />
                     </div>
                     <span className="text-xl font-extrabold tracking-tight text-slate-800">
-                        FuturePath <span className="text-blue-600">AI</span>
+                        SmartPath <span className="text-blue-600">AI</span>
                     </span>
                 </Link>
 
@@ -26,9 +27,11 @@ export default function Navbar() {
                     <Link href="/" className="text-sm font-bold text-slate-600 hover:text-blue-600 transition-colors">
                         {t("home")}
                     </Link>
-                    <Link href="/diagnostic" className="text-sm font-bold text-slate-600 hover:text-blue-600 transition-colors">
-                        {t("diagnostic")}
-                    </Link>
+                    {session?.user?.role !== "ADMIN" && (
+                        <Link href="/diagnostic" className="text-sm font-bold text-slate-600 hover:text-blue-600 transition-colors">
+                            {t("diagnostic")}
+                        </Link>
+                    )}
                     <Link
                         href={session?.user?.role === "ADMIN" ? "/admin" : "/dashboard"}
                         className={`text-sm font-bold transition-colors ${!session ? "text-slate-300 cursor-not-allowed" : "text-slate-600 hover:text-blue-600"}`}
@@ -53,13 +56,8 @@ export default function Navbar() {
                         <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
                     </button>
 
-                    {session ? (
-                        <Link
-                            href={session.user?.role === "ADMIN" ? "/admin" : "/profile"}
-                            className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center border border-slate-200 cursor-pointer hover:bg-slate-200 transition-colors"
-                        >
-                            <User className="w-5 h-5 text-slate-500" />
-                        </Link>
+                    {session?.user ? (
+                        <ProfileDropdown user={session.user} />
                     ) : (
                         <Link
                             href="/auth/login"

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import { Calculator, Atom, Microscope, BookOpen, ChevronRight, CheckCircle2, AlertCircle, Loader2, Lightbulb } from "lucide-react";
@@ -21,7 +21,7 @@ const subjects = [
     { id: "english", nameKey: "english", icon: <BookOpen />, color: "text-rose-600", bg: "bg-rose-50" },
 ];
 
-export default function DiagnosticQuiz({ subjectId }: { subjectId?: string }) {
+export default function DiagnosticQuiz({ subjectId, locale }: { subjectId?: string; locale: string }) {
     const router = useRouter();
     const locale = useLocale();
     const t = useTranslations("Landing");
@@ -32,6 +32,12 @@ export default function DiagnosticQuiz({ subjectId }: { subjectId?: string }) {
     const [activeSubjects] = useState(() =>
         subjectId ? subjects.filter(s => s.id === subjectId) : subjects
     );
+
+    useEffect(() => {
+        if (subjectId && currentStep === 0) {
+            startQuiz();
+        }
+    }, [subjectId]);
 
     const [currentStep, setCurrentStep] = useState(0); // 0: Intro, 1: Loading Quiz, 2: Active Quiz, 3: Completed Subject, 4: All Finished
     const [currentSubjectIndex, setCurrentSubjectIndex] = useState(0);
@@ -132,9 +138,9 @@ export default function DiagnosticQuiz({ subjectId }: { subjectId?: string }) {
                     r.subjectName.toLowerCase() === currentSubject.id.toLowerCase()
                 ) || data.results[0];
 
-                router.push(`/${locale}/diagnostic/results/${targetResult.submissionId}`);
+                router.push(`/diagnostic/results/${targetResult.submissionId}`);
             } else {
-                router.push(`/${locale}/dashboard`);
+                router.push(`/dashboard`);
             }
         } catch (error) {
             console.error("Submission failed", error);

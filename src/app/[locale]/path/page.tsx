@@ -1,4 +1,6 @@
+import { redirect, Link } from "@/navigation";
 import LearningPath from "@/components/LearningPath";
+import BackButton from "@/components/BackButton";
 
 export default async function PathPage({
     params,
@@ -12,6 +14,15 @@ export default async function PathPage({
 
     return (
         <div className="min-h-screen pt-32 px-6">
+            <div className="max-w-4xl mx-auto py-8 flex justify-between items-center">
+                <BackButton />
+                <Link
+                    href="/dashboard"
+                    className="flex items-center gap-2 px-6 py-2.5 bg-white/50 backdrop-blur-md border border-slate-200 rounded-2xl text-xs font-black text-slate-600 hover:bg-slate-50 transition-all"
+                >
+                    Dashboard
+                </Link>
+            </div>
             <div className="max-w-4xl mx-auto flex flex-col items-center">
                 <div className="text-center space-y-4 mb-16">
                     <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-gradient">

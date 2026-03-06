@@ -67,7 +67,7 @@
         "login": "Login"
     },
     "Index": {
-        "title": "FuturePath AI",
+        "title": "SmartPath AI",
         "description": "AI-powered educational platform for personalized learning paths."
     },
     "Auth": {
@@ -80,7 +80,7 @@
         "have_account": "Already have an account?",
         "login_title": "Welcome Back",
         "description": "Access your personalized learning path",
-        "signup_title": "Join FuturePath AI",
+        "signup_title": "Join SmartPath AI",
         "signup_desc": "Begin your futuristic learning journey",
         "student_role": "Student",
         "admin_role": "Administrator",
@@ -189,12 +189,16 @@
         "take_quiz": "Start Diagnostic",
         "engine_badge": "AI Future Engine",
         "observation_required": "Observation Required",
-        "subjects_required": "Career prediction requires data from at least 3 different subjects."
+        "subjects_required": "Career prediction requires data from at least 3 different subjects.",
+        "last_updated": "Last Updated",
+        "refresh_btn": "Refresh AI Analysis",
+        "rerun_btn": "Rerun Analysis"
     },
     "Profile": {
         "title": "Your Profile",
         "history": "Assessment History",
         "no_history": "No assessments yet.",
+        "no_assessments": "No assessments yet.",
         "edit": "Edit Profile",
         "logout": "Logout",
         "view_path": "View Path",
@@ -204,7 +208,28 @@
         "role": "Role",
         "stats_total": "Total",
         "start_quiz_cta": "Start First Quiz",
-        "student_fallback": "Student"
+        "student_fallback": "Student",
+        "view_details": "View Results",
+        "view_roadmap": "View Roadmap",
+        "score_label": "Score",
+        "no_roadmap": "No Roadmap",
+        "settings": "Account Settings",
+        "admin_info_title": "Administrator Account",
+        "admin_info_desc": "You are logged in with administrative privileges. Please use the Admin Portal to manage the platform's data, students, and system settings.",
+        "back_to_admin": "Go to Admin Portal"
+    },
+    "Dashboard": {
+        "welcome_back": "Welcome back",
+        "active_paths": "Active Learning Paths",
+        "continue_path": "Continue Path",
+        "no_active_paths": "No active paths yet",
+        "no_active_paths_desc": "Complete a diagnostic quiz to generate your first AI-powered roadmap.",
+        "take_diagnostic": "Take Diagnostic",
+        "major_predictor_title": "Major Predictor",
+        "major_predictor_desc": "Let AI analyze your overall performance to discover the best university major for you.",
+        "progress_to_unlock": "Progress to Unlock",
+        "open_predictor": "Open AI Predictor",
+        "assessment_history": "Assessment History"
     },
     "Results": {
         "title": "Assessment Results",
@@ -212,13 +237,14 @@
         "score_label": "Score",
         "excellent_msg": "Excellent work! You have a strong grasp of the fundamentals. Your roadmap will focus on advanced application.",
         "good_msg": "A good start! We've identified some knowledge gaps. Your personalized roadmap will strengthen your foundations.",
-        "view_path": "View My FuturePath",
+        "view_path": "View My SmartPath",
         "try_another": "Try Another Subject",
         "breakdown": "Question Breakdown",
         "correct": "Correct",
         "incorrect": "Incorrect"
     },
     "Diagnostic": {
+        "title": "Diagnostic",
         "generating": "Generating your questions...",
         "subject_label": "Subject",
         "of_questions": "of {total} Questions",
@@ -227,8 +253,14 @@
         "ready_for_next": "You're ready for the next subject",
         "next_subject_btn": "Continue to Next Subject",
         "awesome_complete": "Awesome! Assessment Complete",
-        "analyzing_results_desc": "Our AI is analyzing your performance to generate your unique FuturePath.",
-        "analyzing_results_btn": "Analyzing Results...",
-        "view_path_btn": "View My FuturePath"
+        "analyzing_results_desc": "Our AI is analyzing your performance to generate your unique SmartPath.",
+        "view_path_btn": "View My SmartPath",
+        "stage_1_badge": "Step 1: Evaluation",
+        "selection_title": "Choose Your Subject",
+        "selection_desc": "Select a subject to begin your diagnostic assessment and unlock your AI-powered roadmap.",
+        "start_btn": "Start Assessment",
+        "restricted_title": "Access Restricted",
+        "restricted_desc": "Administrators cannot take diagnostic quizzes.",
+        "restricted_back": "Back to Admin Portal"
     }
 }

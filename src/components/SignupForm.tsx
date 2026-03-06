@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/navigation";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { Link } from "@/navigation";
@@ -76,8 +76,8 @@ export default function SignupForm() {
                                 type="button"
                                 onClick={() => setRole("STUDENT")}
                                 className={`flex items-center justify-center gap-2 py-3 rounded-2xl border-2 transition-all font-bold text-sm ${role === "STUDENT"
-                                        ? "bg-blue-50 border-blue-500 text-blue-600 shadow-lg shadow-blue-500/10"
-                                        : "bg-white border-slate-100 text-slate-400 hover:border-slate-200"
+                                    ? "bg-blue-50 border-blue-500 text-blue-600 shadow-lg shadow-blue-500/10"
+                                    : "bg-white border-slate-100 text-slate-400 hover:border-slate-200"
                                     }`}
                             >
                                 <GraduationCap className="w-4 h-4" />
@@ -87,8 +87,8 @@ export default function SignupForm() {
                                 type="button"
                                 onClick={() => setRole("ADMIN")}
                                 className={`flex items-center justify-center gap-2 py-3 rounded-2xl border-2 transition-all font-bold text-sm ${role === "ADMIN"
-                                        ? "bg-indigo-50 border-indigo-500 text-indigo-600 shadow-lg shadow-indigo-500/10"
-                                        : "bg-white border-slate-100 text-slate-400 hover:border-slate-200"
+                                    ? "bg-indigo-50 border-indigo-500 text-indigo-600 shadow-lg shadow-indigo-500/10"
+                                    : "bg-white border-slate-100 text-slate-400 hover:border-slate-200"
                                     }`}
                             >
                                 <ShieldCheck className="w-4 h-4" />

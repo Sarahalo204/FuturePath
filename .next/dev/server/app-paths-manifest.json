@@ -1,9 +1,5 @@
 {
-  "/[locale]/dashboard/page": "app/[locale]/dashboard/page.js",
-  "/[locale]/diagnostic/page": "app/[locale]/diagnostic/page.js",
+  "/[locale]/auth/login/page": "app/[locale]/auth/login/page.js",
   "/[locale]/page": "app/[locale]/page.js",
-  "/[locale]/path/page": "app/[locale]/path/page.js",
-  "/api/ai/generate-quiz/route": "app/api/ai/generate-quiz/route.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/api/learning-path/route": "app/api/learning-path/route.js"
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js"
 }

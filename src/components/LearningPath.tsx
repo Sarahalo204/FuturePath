@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, Circle, Lock, ArrowRight, Zap, GraduationCap, Video } from "lucide-react";
+import { CheckCircle2, Circle, Lock, ArrowRight, Zap, GraduationCap, Video, ExternalLink } from "lucide-react";
 import { type RoadmapItem, type RoadmapResponse } from "@/lib/ai-service";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -48,7 +48,7 @@ export default function LearningPath({ subjectId, locale = "en" }: { subjectId?:
                     <Zap className="w-8 h-8 text-blue-600 absolute inset-0 m-auto animate-pulse" />
                 </div>
                 <p className="text-xl font-black text-slate-800 animate-pulse uppercase tracking-widest">
-                    {isArabic ? "جاري إنشاء FuturePath..." : "Generating FuturePath..."}
+                    {isArabic ? "جاري إنشاء SmartPath..." : "Generating SmartPath..."}
                 </p>
             </div>
         );
@@ -66,7 +66,7 @@ export default function LearningPath({ subjectId, locale = "en" }: { subjectId?:
                     onClick={() => window.location.href = "/diagnostic"}
                     className="px-10 py-4 bg-slate-900 text-white rounded-2xl font-black shadow-xl hover:bg-slate-800 transition-all flex items-center gap-3 mx-auto"
                 >
-                    Start Diagnostic <ArrowRight className="w-5 h-5" />
+                    {isArabic ? "بدء التقييم" : "Start Diagnostic"} <ArrowRight className="w-5 h-5" />
                 </button>
             </div>
         );
@@ -90,7 +90,9 @@ export default function LearningPath({ subjectId, locale = "en" }: { subjectId?:
                 </div>
                 {data?.resources && data.resources.length > 0 && (
                     <div className="glass-panel p-8 space-y-4 bg-white/80 border-slate-100 shadow-sm">
-                        <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Recommended Resources</h3>
+                        <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest leading-none mb-1">
+                            {isArabic ? "موارد مقترحة" : "Recommended Resources"}
+                        </h3>
                         <div className="flex flex-wrap gap-3 mt-4">
                             {data.resources.slice(0, 3).map((res: any, i: number) => (
                                 <a
@@ -147,7 +149,9 @@ export default function LearningPath({ subjectId, locale = "en" }: { subjectId?:
                                     "px-4 py-2 rounded-xl text-[10px] font-black border uppercase tracking-widest",
                                     item.type === "WEAKNESS" ? "bg-rose-50 border-rose-100 text-rose-500" : "bg-emerald-50 border-emerald-100 text-emerald-600"
                                 )}>
-                                    {item.type === "WEAKNESS" ? "Weakness Point" : "Strength Point"}
+                                    {item.type === "WEAKNESS"
+                                        ? (isArabic ? "نقطة ضعف" : "Weakness Point")
+                                        : (isArabic ? "نقطة قوة" : "Strength Point")}
                                 </div>
                             </div>
 
@@ -156,10 +160,15 @@ export default function LearningPath({ subjectId, locale = "en" }: { subjectId?:
                             </p>
 
                             <div className="flex items-center gap-4">
-                                {item.status === "AVAILABLE" && (
-                                    <button className="flex items-center gap-3 bg-slate-900 text-white px-8 py-3 rounded-2xl text-sm font-black hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/10">
-                                        Start Learning <ArrowRight className="w-5 h-5" />
-                                    </button>
+                                {item.status === "AVAILABLE" && item.resourceLink && (
+                                    <a
+                                        href={item.resourceLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-3 bg-slate-900 text-white px-8 py-3 rounded-2xl text-sm font-black hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/10"
+                                    >
+                                        {isArabic ? "ابدأ التعلم" : "Start Learning"} <ExternalLink className="w-5 h-5" />
+                                    </a>
                                 )}
                                 <div className="flex gap-2 ml-auto">
                                     <div className="p-3 bg-slate-50 rounded-xl text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all cursor-pointer border border-slate-100">

@@ -22,6 +22,7 @@ export interface RoadmapItem {
     type: "WEAKNESS" | "STRENGTH";
     description: string;
     status: "LOCKED" | "AVAILABLE" | "COMPLETED";
+    resourceLink?: string; // AI provided link for this specific topic
 }
 
 export interface RoadmapResponse {
@@ -43,7 +44,8 @@ export function generateQuizPrompt(subject: string, language: string, count: num
     
     CRITICAL LANGUAGE INSTRUCTION:
     The user language is ${langPrompt.toUpperCase()}. 
-    Please generate ALL content, including questions, options, and hints, strictly in ${langPrompt.toUpperCase()}.
+    You MUST generate 100% of the JSON response, including questions, options, and hints, strictly in ${langPrompt.toUpperCase()}.
+    DO NOT mix languages or use ${langPrompt === "Arabic" ? "English" : "Arabic"} technical terms.
 
     Requirements:
     - Number of questions: ${count}
@@ -74,14 +76,16 @@ export function generateRoadmapPrompt(results: DiagnosticResult[], language: str
 
     CRITICAL LANGUAGE INSTRUCTION:
     The user language is ${langPrompt.toUpperCase()}.
-    Please generate ALL content, including topic names, descriptions, resource titles, and suggestions, strictly in ${langPrompt.toUpperCase()}.
+    You MUST generate 100% of the JSON response, including topic names, descriptions, resource titles, and suggestions, strictly in ${langPrompt.toUpperCase()}.
+    DO NOT mix languages or use ${langPrompt === "Arabic" ? "English" : "Arabic"} terms.
 
     CRITICAL CATEGORIZATION:
     - If a subject score is < 70%, categorize related topics as "WEAKNESS" (Focus on basic explanations).
     - If a subject score is >= 70%, categorize related topics as "STRENGTH" (Focus on advanced exercises).
 
     Format the response as a valid JSON object with:
-    1. "roadmap": An array of objects with { id, topic, subject, type, description, status: "AVAILABLE" }.
+    1. "roadmap": An array of objects with { id, topic, subject, type, description, status: "AVAILABLE", resourceLink }. 
+       - "resourceLink": A direct educational link (YouTube or Khan Academy) specific to this topic.
     2. "resources": A list of objects with { title, url, type } where:
        - "type" is one of "YouTube", "Course", or "Book".
        - All titles and descriptions must be in ${langPrompt}.
@@ -106,7 +110,8 @@ export function generateCareerPredictionPrompt(results: { subject: string; score
     
     CRITICAL LANGUAGE INSTRUCTION:
     The user language is ${langPrompt.toUpperCase()}.
-    Please generate ALL content, including major names, explanations, and career paths, strictly in ${langPrompt.toUpperCase()}.
+    You MUST generate 100% of the JSON response, including major names, explanations, and career paths, strictly in ${langPrompt.toUpperCase()}.
+    DO NOT mix languages or use ${langPrompt === "Arabic" ? "English" : "Arabic"} terms.
 
     For each major, provide:
     1. "name": The common name of the major in ${langPrompt}.
@@ -152,11 +157,11 @@ export async function processAIRequest<T>(prompt: string, locale: string = "en")
                     {
                         role: "system",
                         content: `You are an expert educational AI and career strategist. 
-                        CRITICAL: The user interface is currently in ${langName.toUpperCase()}. 
-                        You MUST generate all output (text, descriptions, names, titles, suggestions) strictly in ${langName.toUpperCase()}. 
-                        Do not mix ${langName} with any other language. 
-                        For resources, provide valid URLs (YouTube search links like https://www.youtube.com/results?search_query=...) or high-quality educational domains. 
-                        Always return valid JSON only. No extra conversational text.`
+                        CRITICAL LANGUAGE RULE: The user interface is strictly in ${langName.toUpperCase()}. 
+                        You MUST generate 100% of your response in ${langName.toUpperCase()}. 
+                        This includes all questions, options, hints, roadmap topics, descriptions, resource titles, and major names.
+                        DO NOT use any ${langName === "Arabic" ? "English" : "Arabic"} words even for technical terms unless they are universal proper nouns.
+                        Format: Always return valid JSON only. No extra conversational text.`
                     },
                     { role: "user", content: prompt }
                 ],

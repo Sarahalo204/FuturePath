@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { redirect } from "next/navigation";
+import { redirect } from "@/navigation";
 import AdminSidebar from "@/components/AdminSidebar";
 
 export default async function AdminLayout({

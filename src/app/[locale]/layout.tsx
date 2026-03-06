@@ -11,7 +11,7 @@ import { notFound } from "next/navigation";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "FuturePath AI | Personalized Learning",
+    title: "SmartPath AI | Personalized Learning",
     description: "AI-driven EdTech platform for high school students.",
 };
 
@@ -34,23 +34,20 @@ export default async function RootLayout({
     }
 
     // Providing all messages to the client
-    // side is the easiest way to get started
     const messages = await getMessages();
 
-    const direction = locale === "ar" ? "rtl" : "ltr";
-
     return (
-        <html lang={locale} dir={direction} className="light">
-            <body className={`${inter.className} bg-slate-50 text-slate-900 min-h-screen`}>
-                <Providers>
-                    <NextIntlClientProvider messages={messages}>
+        <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} className="light">
+            <body className={`${inter.className} bg-slate-50 text-slate-900 min-h-screen relative`}>
+                <NextIntlClientProvider locale={locale} messages={messages}>
+                    <Providers>
                         <Navbar />
                         <main className="relative pt-16">
                             <div className="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-50 via-white to-slate-50" />
                             {children}
                         </main>
-                    </NextIntlClientProvider>
-                </Providers>
+                    </Providers>
+                </NextIntlClientProvider>
             </body>
         </html>
     );

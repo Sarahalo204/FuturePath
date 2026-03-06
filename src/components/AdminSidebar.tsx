@@ -57,8 +57,8 @@ export default function AdminSidebar() {
                                 key={item.id}
                                 href={item.href}
                                 className={`flex items-center gap-3 p-3 rounded-xl transition-all group ${isActive
-                                        ? "bg-blue-600 text-white shadow-lg shadow-blue-500/20"
-                                        : "text-slate-500 hover:bg-slate-50 hover:text-blue-600"
+                                    ? "bg-blue-600 text-white shadow-lg shadow-blue-500/20"
+                                    : "text-slate-500 hover:bg-slate-50 hover:text-blue-600"
                                     }`}
                             >
                                 <div className={`${isActive ? "text-white" : "group-hover:text-blue-600"}`}>

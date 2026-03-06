@@ -5,6 +5,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Brain, GraduationCap, ChevronRight, Loader2, Target, HelpCircle, ArrowRight, Lock } from "lucide-react";
 import { Link } from "@/navigation";
+import BackButton from "@/components/BackButton";
 
 interface Prediction {
     name: string;
@@ -15,16 +16,18 @@ interface Prediction {
 
 export default function PredictorPage() {
     const t = useTranslations("Predictor");
+    const navT = useTranslations("Navigation");
     const locale = useLocale();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [predictions, setPredictions] = useState<Prediction[]>([]);
+    const [lastUpdated, setLastUpdated] = useState<string | null>(null);
 
-    const fetchPredictions = async () => {
+    const fetchPredictions = async (refresh = false) => {
         setLoading(true);
         setError(null);
         try {
-            const res = await fetch(`/api/ai/predict-career?locale=${locale}`);
+            const res = await fetch(`/api/ai/predict-career?locale=${locale}${refresh ? "&refresh=true" : ""}`);
             const data = await res.json();
 
             if (!res.ok) {
@@ -32,6 +35,9 @@ export default function PredictorPage() {
             }
 
             setPredictions(data.predictions);
+            if (data.lastUpdated) {
+                setLastUpdated(data.lastUpdated);
+            }
         } catch (err: any) {
             setError(err.message);
         } finally {
@@ -39,21 +45,58 @@ export default function PredictorPage() {
         }
     };
 
+    useEffect(() => {
+        fetchPredictions(false);
+    }, []);
+
     return (
         <div className="min-h-screen py-20 px-6 max-w-7xl mx-auto space-y-12">
-            <header className="text-center space-y-4">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 rounded-full border border-indigo-100 mb-4">
-                    <Brain className="w-4 h-4 text-indigo-600" />
-                    <span className="text-xs font-black text-indigo-600 uppercase tracking-widest">{t("engine_badge")}</span>
+            <div className="pt-10 flex justify-between items-center">
+                <BackButton />
+                <Link
+                    href="/dashboard"
+                    className="flex items-center gap-2 px-6 py-2.5 bg-white/50 backdrop-blur-md border border-slate-200 rounded-2xl text-xs font-black text-slate-600 hover:bg-slate-50 transition-all"
+                >
+                    {navT("dashboard")}
+                </Link>
+            </div>
+
+            <header className="text-center space-y-6">
+                <div className="inline-flex flex-col items-center">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 rounded-full border border-indigo-100 mb-4">
+                        <Brain className="w-4 h-4 text-indigo-600" />
+                        <span className="text-xs font-black text-indigo-600 uppercase tracking-widest">{t("engine_badge")}</span>
+                    </div>
+                    <h1 className="text-4xl md:text-6xl font-black text-slate-800 tracking-tight">{t("title")}</h1>
+                    <p className="text-slate-500 font-medium max-w-2xl mx-auto leading-relaxed italic">{t("description")}</p>
                 </div>
-                <h1 className="text-4xl md:text-6xl font-black text-slate-800 tracking-tight">{t("title")}</h1>
-                <p className="text-slate-500 font-medium max-w-2xl mx-auto leading-relaxed italic">{t("description")}</p>
+
+                {lastUpdated && predictions.length > 0 && (
+                    <div className="flex flex-col items-center gap-6 pt-4">
+                        <div className="flex items-center gap-3 px-6 py-2 bg-slate-50 rounded-2xl border border-slate-100">
+                            <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                {t("last_updated") || "Last Updated"}: {new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(lastUpdated))}
+                            </p>
+                        </div>
+
+                        <button
+                            onClick={() => fetchPredictions(true)}
+                            disabled={loading}
+                            className="group relative px-8 py-3 bg-white text-slate-800 border border-slate-200 rounded-2xl font-black text-xs shadow-sm hover:shadow-md hover:border-indigo-200 transition-all flex items-center gap-2"
+                        >
+                            <Sparkles className="w-4 h-4 text-indigo-500 group-hover:rotate-12 transition-transform" />
+                            {t("refresh_btn") || "Re-run AI Analysis"}
+                            {loading && <Loader2 className="w-3 h-3 animate-spin ml-1" />}
+                        </button>
+                    </div>
+                )}
             </header>
 
             <div className="flex justify-center">
-                {!predictions.length && !loading && !error && (
+                {predictions.length === 0 && !loading && !error && (
                     <button
-                        onClick={fetchPredictions}
+                        onClick={() => fetchPredictions(true)}
                         className="group relative px-12 py-5 bg-slate-900 text-white rounded-3xl font-black text-lg shadow-2xl hover:bg-slate-800 transition-all flex items-center gap-3 overflow-hidden"
                     >
                         <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -104,22 +147,33 @@ export default function PredictorPage() {
                                     <span className="text-indigo-600 italic">Enhancement Needed</span>
                                 </div>
                                 <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200/50">
-                                    <div className="w-1/3 h-full bg-indigo-500 rounded-full shadow-lg shadow-indigo-500/20 animate-pulse" />
+                                    <div
+                                        className="h-full bg-indigo-500 rounded-full shadow-lg shadow-indigo-500/20 animate-pulse"
+                                        style={{ width: '33%' }}
+                                    />
                                 </div>
                             </div>
                         )}
 
-                        <Link
-                            href="/diagnostic"
-                            className="inline-flex items-center gap-3 px-10 py-4 bg-slate-900 text-white rounded-2xl font-black transition-all hover:bg-slate-800 shadow-xl group border-none"
-                        >
-                            {t("take_quiz")}
-                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform rtl:rotate-180" />
-                        </Link>
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
+                            <Link
+                                href="/diagnostic"
+                                className="inline-flex items-center gap-3 px-10 py-4 bg-slate-900 text-white rounded-2xl font-black transition-all hover:bg-slate-800 shadow-xl group border-none"
+                            >
+                                {t("take_quiz")}
+                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform rtl:rotate-180" />
+                            </Link>
+                            <Link
+                                href="/dashboard"
+                                className="text-sm font-black text-slate-400 hover:text-slate-600 transition-colors uppercase tracking-widest"
+                            >
+                                {navT("dashboard")}
+                            </Link>
+                        </div>
                     </motion.div>
                 )}
 
-                {predictions.length > 0 && (
+                {predictions.length > 0 && !loading && (
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}

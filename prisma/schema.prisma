@@ -13,16 +13,28 @@ enum Role {
 }
 
 model User {
-  id            String         @id @default(cuid())
-  email         String         @unique
-  password      String         // For robust authentication
-  name          String?
-  role          Role           @default(STUDENT)
-  submissions   Submission[]
-  learningPaths LearningPath[]
-  careerPath    CareerPath?
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  id                String             @id @default(cuid())
+  email             String             @unique
+  password          String             // For robust authentication
+  name              String?
+  role              Role               @default(STUDENT)
+  submissions       Submission[]
+  learningPaths     LearningPath[]
+  careerPath        CareerPath?
+  careerPredictions CareerPrediction[]
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+}
+
+// ... existing code ...
+
+model CareerPrediction {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  prediction Json     // Array of predictions [{name, explanation, careers, matchScore}]
+  locale     String   // The locale used for this prediction
+  createdAt  DateTime @default(now())
 }
 
 model Subject {

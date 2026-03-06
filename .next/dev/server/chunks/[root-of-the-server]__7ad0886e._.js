@@ -89,13 +89,18 @@ __turbopack_context__.s([
 ]);
 var __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f40$prisma$2f$client$29$__ = __turbopack_context__.i("[externals]/@prisma/client [external] (@prisma/client, cjs, [project]/node_modules/@prisma/client)");
 ;
-const globalForPrisma = /*TURBOPACK member replacement*/ __turbopack_context__.g;
-const prisma = globalForPrisma.prisma || new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f40$prisma$2f$client$29$__["PrismaClient"]({
-    log: [
-        "query"
-    ]
-});
-if ("TURBOPACK compile-time truthy", 1) globalForPrisma.prisma = prisma;
+const prismaClientSingleton = ()=>{
+    return new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$2c$__$5b$project$5d2f$node_modules$2f40$prisma$2f$client$29$__["PrismaClient"]({
+        log: ("TURBOPACK compile-time truthy", 1) ? [
+            "error",
+            "warn"
+        ] : "TURBOPACK unreachable",
+        datasourceUrl: process.env.DATABASE_URL
+    });
+};
+const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
+;
+if ("TURBOPACK compile-time truthy", 1) globalThis.prismaGlobal = prisma;
 }),
 "[project]/src/auth.config.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
@@ -143,6 +148,19 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zod$2f$v4$2f
 ;
 ;
 ;
+// Helper: retry a DB operation up to `retries` times with a delay between attempts
+async function withRetry(fn, retries = 2, delayMs = 500) {
+    for(let attempt = 0; attempt <= retries; attempt++){
+        try {
+            return await fn();
+        } catch (error) {
+            if (attempt === retries) throw error;
+            console.warn(`[auth] DB attempt ${attempt + 1} failed, retrying in ${delayMs}ms...`);
+            await new Promise((r)=>setTimeout(r, delayMs));
+        }
+    }
+    throw new Error("[auth] withRetry: unreachable");
+}
 const { handlers, auth, signIn, signOut } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$auth$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__["default"])({
     adapter: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$auth$2f$prisma$2d$adapter$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["PrismaAdapter"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"]),
     session: {
@@ -163,13 +181,17 @@ const { handlers, auth, signIn, signOut } = (0, __TURBOPACK__imported__module__$
         },
         async jwt ({ token }) {
             if (!token.sub) return token;
-            const existingUser = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique({
-                where: {
-                    id: token.sub
-                }
-            });
-            if (!existingUser) return token;
-            token.role = existingUser.role;
+            try {
+                const existingUser = await withRetry(()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique({
+                        where: {
+                            id: token.sub
+                        }
+                    }));
+                if (!existingUser) return token;
+                token.role = existingUser.role;
+            } catch (error) {
+                console.error("[auth] jwt callback - DB error after retries:", error);
+            }
             return token;
         }
     },
@@ -197,14 +219,19 @@ const { handlers, auth, signIn, signOut } = (0, __TURBOPACK__imported__module__$
                 }).safeParse(credentials);
                 if (validatedFields.success) {
                     const { email, password } = validatedFields.data;
-                    const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique({
-                        where: {
-                            email
-                        }
-                    });
-                    if (!user || !user.password) return null;
-                    const passwordsMatch = await __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$bcryptjs$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].compare(password, user.password);
-                    if (passwordsMatch) return user;
+                    try {
+                        const user = await withRetry(()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique({
+                                where: {
+                                    email
+                                }
+                            }));
+                        if (!user || !user.password) return null;
+                        const passwordsMatch = await __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$bcryptjs$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].compare(password, user.password);
+                        if (passwordsMatch) return user;
+                    } catch (error) {
+                        console.error("[auth] authorize - DB error after retries:", error);
+                        return null;
+                    }
                 }
                 return null;
             }

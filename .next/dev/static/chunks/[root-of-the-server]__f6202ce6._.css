@@ -779,6 +779,10 @@
     margin-top: calc(var(--spacing) * 8);
   }
 
+  .mt-auto {
+    margin-top: auto;
+  }
+
   .-mr-8 {
     margin-right: calc(var(--spacing) * -8);
   }

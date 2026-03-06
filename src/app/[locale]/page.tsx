@@ -120,29 +120,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                     </div>
                 </section>
 
-                {/* Call to Action */}
-                <div className="glass-panel p-20 text-center space-y-12 bg-slate-900 text-white border-none relative overflow-hidden rounded-[3rem] shadow-2xl shadow-blue-500/10">
-                    <div className="absolute top-0 right-0 -mr-32 -mt-32 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px]" />
-                    <div className="absolute bottom-0 left-0 -ml-32 -mb-32 w-96 h-96 bg-indigo-500/10 rounded-full blur-[100px]" />
 
-                    <div className="relative z-10 space-y-6">
-                        <div className="w-20 h-20 bg-white/5 rounded-3xl flex items-center justify-center mx-auto mb-4 border border-white/10">
-                            <GraduationCap className="w-10 h-10 text-white" />
-                        </div>
-                        <h2 className="text-5xl font-black tracking-tight max-w-2xl mx-auto leading-tight">
-                            {t("future_path_cta")}
-                        </h2>
-                        <p className="text-slate-400 text-lg max-w-xl mx-auto leading-relaxed font-bold">
-                            {t("cta_desc")}
-                        </p>
-                        <div className="pt-6">
-                            <button className="px-12 py-5 bg-blue-600 hover:bg-blue-500 text-white text-lg font-black rounded-2xl shadow-2xl shadow-blue-500/30 transition-all duration-300 active:scale-95 flex items-center gap-3 mx-auto">
-                                {t("begin")}
-                                <ArrowRight className="w-6 h-6 rtl:rotate-180" />
-                            </button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </main>
     );

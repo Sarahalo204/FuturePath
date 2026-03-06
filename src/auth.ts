@@ -5,6 +5,20 @@ import authConfig from "./auth.config";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 
+// Helper: retry a DB operation up to `retries` times with a delay between attempts
+async function withRetry<T>(fn: () => Promise<T>, retries = 2, delayMs = 500): Promise<T> {
+    for (let attempt = 0; attempt <= retries; attempt++) {
+        try {
+            return await fn();
+        } catch (error) {
+            if (attempt === retries) throw error;
+            console.warn(`[auth] DB attempt ${attempt + 1} failed, retrying in ${delayMs}ms...`);
+            await new Promise((r) => setTimeout(r, delayMs));
+        }
+    }
+    throw new Error("[auth] withRetry: unreachable");
+}
+
 export const {
     handlers,
     auth,
@@ -31,13 +45,19 @@ export const {
         async jwt({ token }) {
             if (!token.sub) return token;
 
-            const existingUser = await prisma.user.findUnique({
-                where: { id: token.sub },
-            });
+            try {
+                const existingUser = await withRetry(() =>
+                    prisma.user.findUnique({
+                        where: { id: token.sub! },
+                    })
+                );
 
-            if (!existingUser) return token;
+                if (!existingUser) return token;
 
-            token.role = existingUser.role;
+                token.role = existingUser.role;
+            } catch (error) {
+                console.error("[auth] jwt callback - DB error after retries:", error);
+            }
 
             return token;
         },
@@ -64,19 +84,26 @@ export const {
                 if (validatedFields.success) {
                     const { email, password } = validatedFields.data;
 
-                    const user = await prisma.user.findUnique({
-                        where: { email },
-                    });
+                    try {
+                        const user = await withRetry(() =>
+                            prisma.user.findUnique({
+                                where: { email },
+                            })
+                        );
 
-                    if (!user || !user.password) return null;
+                        if (!user || !user.password) return null;
 
-                    const passwordsMatch = await bcrypt.compare(password, user.password);
+                        const passwordsMatch = await bcrypt.compare(password, user.password);
 
-                    if (passwordsMatch) return user;
+                        if (passwordsMatch) return user;
+                    } catch (error) {
+                        console.error("[auth] authorize - DB error after retries:", error);
+                        return null;
+                    }
                 }
 
                 return null;
             },
-        } as any, // Using any here because of type mismatches in Beta versions
+        } as any,
     ],
 });

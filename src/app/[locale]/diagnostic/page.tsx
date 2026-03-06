@@ -46,11 +46,12 @@ export default async function DiagnosticPage({ params, searchParams }: { params:
     }
 
     if (subject) {
+        const subjectName = t(`subjects.${subject}`);
         return (
             <div className="min-h-screen pt-12 flex flex-col items-center px-4">
                 <div className="max-w-4xl w-full text-center mb-8">
                     <h1 className="text-4xl md:text-5xl font-black text-slate-800 tracking-tight mb-4">
-                        {t(`subjects.${subject}`)} {diagT("title")}
+                        {subjectName} — {diagT("title")}
                     </h1>
                 </div>
                 <DiagnosticQuiz subjectId={subject} locale={locale} />

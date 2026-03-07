@@ -48,7 +48,7 @@ export default function LearningPath({ subjectId, locale = "en" }: { subjectId?:
                     <Zap className="w-8 h-8 text-blue-600 absolute inset-0 m-auto animate-pulse" />
                 </div>
                 <p className="text-xl font-black text-slate-800 animate-pulse uppercase tracking-widest">
-                    {isArabic ? "جاري إنشاء SmartPath..." : "Generating SmartPath..."}
+                    {isArabic ? "جاري إنشاء FuturePath..." : "Generating FuturePath..."}
                 </p>
             </div>
         );

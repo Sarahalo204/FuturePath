@@ -22,7 +22,6 @@ export default function AnalyticsPage() {
     const [subjects, setSubjects] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
-    // Filters
     const [filters, setFilters] = useState({
         studentName: "",
         subjectId: "all",
@@ -31,7 +30,6 @@ export default function AnalyticsPage() {
     });
 
     useEffect(() => {
-        // Initial fetch
         fetchAnalytics();
         fetchSubjects();
     }, []);
@@ -59,36 +57,36 @@ export default function AnalyticsPage() {
         <div className="space-y-8">
             <header>
                 <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight">{t("title")}</h1>
-                <p className="text-slate-500 font-medium">Monitor student engagement and performance trends.</p>
+                <p className="text-slate-500 font-medium">{t("subtitle")}</p>
             </header>
 
             {/* Filters Bar */}
             <div className="glass-panel p-6 bg-white/80 border-slate-200/60 grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div className="relative">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 rtl:left-auto rtl:right-4" />
                     <input
                         name="studentName"
                         value={filters.studentName}
                         onChange={handleFilterChange}
                         placeholder={t("filters.student_name")}
-                        className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 transition-all font-bold text-sm"
+                        className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 transition-all font-bold text-sm rtl:pl-4 rtl:pr-11"
                     />
                 </div>
 
                 <div className="relative">
-                    <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 rtl:left-auto rtl:right-4" />
                     <select
                         name="subjectId"
                         value={filters.subjectId}
                         onChange={handleFilterChange}
-                        className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 transition-all font-bold text-sm appearance-none"
+                        className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 transition-all font-bold text-sm appearance-none rtl:pl-4 rtl:pr-11"
                     >
                         <option value="all">{t("filters.all_subjects")}</option>
                         {subjects.map(s => (
                             <option key={s.id} value={s.id}>{locale === "ar" ? s.nameAr : s.nameEn}</option>
                         ))}
                     </select>
-                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none rtl:right-auto rtl:left-4" />
                 </div>
 
                 <div className="flex gap-2">
@@ -106,20 +104,20 @@ export default function AnalyticsPage() {
                     onClick={fetchAnalytics}
                     className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-all shadow-lg shadow-blue-500/20"
                 >
-                    {loading ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : "Apply Filters"}
+                    {loading ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : t("filters.apply")}
                 </button>
             </div>
 
             {/* Analytics Table */}
             <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
-                <table className="w-full text-left">
+                <table className="w-full text-left rtl:text-right">
                     <thead className="bg-slate-50 border-b border-slate-200">
                         <tr>
-                            <th className="px-8 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest text-left">{t("table.student")}</th>
-                            <th className="px-8 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest text-left">{t("table.subject")}</th>
+                            <th className="px-8 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest text-left rtl:text-right">{t("table.student")}</th>
+                            <th className="px-8 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest text-left rtl:text-right">{t("table.subject")}</th>
                             <th className="px-8 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest text-center">{t("table.score")}</th>
                             <th className="px-8 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest text-center">{t("table.date")}</th>
-                            <th className="px-8 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest text-right">{t("table.details")}</th>
+                            <th className="px-8 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest text-right rtl:text-left">{t("table.details")}</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
@@ -158,7 +156,7 @@ export default function AnalyticsPage() {
                                     <td className="px-6 py-4 text-sm font-bold text-slate-500 text-center">
                                         {new Date(sub.createdAt).toLocaleDateString(locale)}
                                     </td>
-                                    <td className="px-6 py-4 text-right">
+                                    <td className="px-6 py-4 text-right rtl:text-left">
                                         <Link
                                             href={`/admin/analytics/${sub.id}`}
                                             className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-all inline-block"
@@ -177,7 +175,7 @@ export default function AnalyticsPage() {
                         <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto">
                             <Search className="w-6 h-6 text-slate-300" />
                         </div>
-                        <p className="text-slate-400 font-bold">No results matching your filters.</p>
+                        <p className="text-slate-400 font-bold">{t("no_results")}</p>
                     </div>
                 )}
             </div>

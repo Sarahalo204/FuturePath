@@ -25,6 +25,7 @@ export const {
     signIn,
     signOut,
 } = NextAuth({
+    ...authConfig,
     adapter: PrismaAdapter(prisma),
     session: { strategy: "jwt" },
     pages: {
@@ -62,7 +63,6 @@ export const {
             return token;
         },
     },
-    ...authConfig,
     providers: [
         ...authConfig.providers.filter((p) => p.id !== "credentials"),
         {

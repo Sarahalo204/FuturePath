@@ -19,7 +19,7 @@ export default function Navbar() {
                         <GraduationCap className="text-white w-6 h-6" />
                     </div>
                     <span className="text-xl font-extrabold tracking-tight text-slate-800">
-                        SmartPath <span className="text-blue-600">AI</span>
+                        Future<span className="text-blue-600">Path</span>
                     </span>
                 </Link>
 

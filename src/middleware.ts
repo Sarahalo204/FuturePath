@@ -1,5 +1,6 @@
 import createMiddleware from "next-intl/middleware";
-import { auth } from "./auth";
+import NextAuth from "next-auth";
+import authConfig from "./auth.config";
 import { routing } from "./navigation";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -8,6 +9,9 @@ const intlMiddleware = createMiddleware({
     defaultLocale: "en"
 });
 
+// Use auth.config (edge-compatible, no Prisma) instead of auth.ts
+const { auth } = NextAuth(authConfig);
+
 export default auth((req) => {
     const { nextUrl } = req;
     const isLoggedIn = !!req.auth;
@@ -15,8 +19,7 @@ export default auth((req) => {
     // Run intl-middleware first to detect/set locale
     const response = intlMiddleware(req as unknown as NextRequest);
 
-    // Extract locale from the response or the requested URL
-    // next-intl middleware might have added a locale prefix or cookie
+    // Extract locale from the URL
     const pathname = nextUrl.pathname;
     const pathnameParts = pathname.split("/");
     const locale = routing.locales.includes(pathnameParts[1] as any) ? pathnameParts[1] : "en";

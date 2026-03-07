@@ -116,11 +116,32 @@ const __TURBOPACK__default__export__ = {
     providers: [
         (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$auth$2f$node_modules$2f40$auth$2f$core$2f$providers$2f$credentials$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"])({
             async authorize (credentials) {
-                // Validation logic will be implemented in auth.ts (non-edge)
+                // Actual validation happens in auth.ts (non-edge).
+                // This stub is required so Credentials provider is registered.
                 return null;
             }
         })
-    ]
+    ],
+    callbacks: {
+        // These callbacks run in edge middleware and read the JWT token
+        // set by the full auth.ts — no database access needed.
+        async jwt ({ token }) {
+            return token;
+        },
+        async session ({ session, token }) {
+            if (token.sub && session.user) {
+                session.user.id = token.sub;
+            }
+            if (token.role && session.user) {
+                session.user.role = token.role;
+            }
+            return session;
+        },
+        authorized ({ auth, request: { nextUrl } }) {
+            // Let the middleware handle all protection logic
+            return true;
+        }
+    }
 };
 }),
 "[project]/src/auth.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
@@ -162,6 +183,7 @@ async function withRetry(fn, retries = 2, delayMs = 500) {
     throw new Error("[auth] withRetry: unreachable");
 }
 const { handlers, auth, signIn, signOut } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$auth$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__["default"])({
+    ...__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$auth$2e$config$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"],
     adapter: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$auth$2f$prisma$2d$adapter$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["PrismaAdapter"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"]),
     session: {
         strategy: "jwt"
@@ -195,7 +217,6 @@ const { handlers, auth, signIn, signOut } = (0, __TURBOPACK__imported__module__$
             return token;
         }
     },
-    ...__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$auth$2e$config$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"],
     providers: [
         ...__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$auth$2e$config$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].providers.filter((p)=>p.id !== "credentials"),
         {

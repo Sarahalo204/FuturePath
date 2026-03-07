@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Users, GraduationCap, BarChart2, TrendingDown, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
+import { Link } from "@/navigation";
 
 interface DashboardStats {
     totalStudents: number;
@@ -14,6 +15,7 @@ interface DashboardStats {
 
 export default function AdminDashboard() {
     const t = useTranslations("Admin");
+    const locale = useLocale();
     const [stats, setStats] = useState<DashboardStats | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -67,7 +69,7 @@ export default function AdminDashboard() {
         <div className="space-y-10">
             <header>
                 <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight">{t("nav.dashboard")}</h1>
-                <p className="text-slate-500 font-medium">Welcome back, Administrator.</p>
+                <p className="text-slate-500 font-medium">{t("dashboard.welcome")}</p>
             </header>
 
             {/* Stats Grid */}
@@ -91,15 +93,15 @@ export default function AdminDashboard() {
                 ))}
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Performance Chart Placeholder */}
-                <div className="lg:col-span-2 glass-panel p-8 bg-white/80 border-slate-200/60">
-                    <h2 className="text-xl font-extrabold text-slate-800 mb-6">Subject Performance Index</h2>
+            <div className="grid grid-cols-1 gap-8">
+                {/* Performance Chart */}
+                <div className="glass-panel p-8 bg-white/80 border-slate-200/60 w-full">
+                    <h2 className="text-xl font-extrabold text-slate-800 mb-6">{t("dashboard.performance_index")}</h2>
                     <div className="space-y-6">
                         {stats?.subjectStats.map((s) => (
                             <div key={s.id} className="space-y-2">
                                 <div className="flex justify-between text-sm font-bold text-slate-600 uppercase">
-                                    <span>{s.nameEn}</span>
+                                    <span>{locale === "ar" ? s.nameAr : s.nameEn}</span>
                                     <span>{s.avg}%</span>
                                 </div>
                                 <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
@@ -111,21 +113,6 @@ export default function AdminDashboard() {
                                 </div>
                             </div>
                         ))}
-                    </div>
-                </div>
-
-                {/* Quick Actions */}
-                <div className="glass-panel p-8 bg-blue-600 text-white border-none shadow-xl shadow-blue-500/20">
-                    <h2 className="text-xl font-extrabold mb-6">Quick Actions</h2>
-                    <div className="space-y-3">
-                        <button className="w-full p-4 bg-white/10 hover:bg-white/20 rounded-2xl font-bold flex items-center gap-3 transition-all">
-                            <BookOpen className="w-5 h-5 font-bold" />
-                            Manage Subjects
-                        </button>
-                        <button className="w-full p-4 bg-white/10 hover:bg-white/20 rounded-2xl font-bold flex items-center gap-3 transition-all">
-                            <Users className="w-5 h-5" />
-                            Student Reports
-                        </button>
                     </div>
                 </div>
             </div>

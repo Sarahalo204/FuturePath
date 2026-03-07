@@ -1,0 +1,3 @@
+{
+  "/api/ai/predict-career/route": "app/api/ai/predict-career/route.js"
+}

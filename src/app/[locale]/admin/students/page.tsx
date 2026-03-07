@@ -15,7 +15,7 @@ interface Student {
 }
 
 export default function StudentsPage() {
-    const t = useTranslations("Admin.nav");
+    const t = useTranslations("Admin.students");
     const [students, setStudents] = useState<Student[]>([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
@@ -38,30 +38,30 @@ export default function StudentsPage() {
         <div className="space-y-8">
             <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight">{t("students")}</h1>
-                    <p className="text-slate-500 font-medium">Manage and view registered students.</p>
+                    <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight">{t("title")}</h1>
+                    <p className="text-slate-500 font-medium">{t("subtitle")}</p>
                 </div>
 
                 <div className="relative w-full md:w-96">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 rtl:left-auto rtl:right-4" />
                     <input
                         type="text"
-                        placeholder="Search by name or email..."
+                        placeholder={t("search_placeholder")}
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 transition-all font-bold text-sm shadow-sm"
+                        className="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 transition-all font-bold text-sm shadow-sm rtl:pl-4 rtl:pr-11"
                     />
                 </div>
             </header>
 
             <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
-                <table className="w-full text-left">
+                <table className="w-full text-left rtl:text-right">
                     <thead className="bg-slate-50 border-b border-slate-200">
                         <tr>
-                            <th className="px-8 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest">Student</th>
-                            <th className="px-8 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest">Role</th>
-                            <th className="px-8 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest">Assessments</th>
-                            <th className="px-8 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest">Joined</th>
+                            <th className="px-8 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest">{t("col_student")}</th>
+                            <th className="px-8 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest">{t("col_role")}</th>
+                            <th className="px-8 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest">{t("col_assessments")}</th>
+                            <th className="px-8 py-5 text-xs font-bold text-slate-400 uppercase tracking-widest">{t("col_joined")}</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">

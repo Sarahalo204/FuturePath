@@ -105,7 +105,7 @@ export default async function DiagnosticPage({ params, searchParams }: { params:
 
             <div className="text-center pt-12 border-t border-slate-100">
                 <p className="text-slate-400 font-black text-xs uppercase tracking-widest italic">
-                    SmartPath AI • Powered by Advanced Neural Networks
+                    FuturePath • Powered by Advanced Neural Networks
                 </p>
             </div>
         </div>

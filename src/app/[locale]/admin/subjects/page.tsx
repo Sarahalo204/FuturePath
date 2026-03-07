@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Plus, Edit2, Trash2, Check, X, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -17,9 +17,10 @@ interface Subject {
 
 export default function SubjectsPage() {
     const t = useTranslations("Admin.subjects");
+    const locale = useLocale();
     const [subjects, setSubjects] = useState<Subject[]>([]);
     const [loading, setLoading] = useState(true);
-    const [isEditing, setIsEditing] = useState<string | null>(null); // ID of subject or 'new'
+    const [isEditing, setIsEditing] = useState<string | null>(null);
     const [formData, setFormData] = useState({ id: "", nameEn: "", nameAr: "", descriptionEn: "", descriptionAr: "", isEnabled: true });
     const [submitting, setSubmitting] = useState(false);
 
@@ -87,7 +88,7 @@ export default function SubjectsPage() {
             <header className="flex justify-between items-center">
                 <div>
                     <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight">{t("title")}</h1>
-                    <p className="text-slate-500 font-medium">Configure and manage global educational subjects.</p>
+                    <p className="text-slate-500 font-medium">{t("subtitle")}</p>
                 </div>
                 <button
                     onClick={() => {
@@ -107,7 +108,7 @@ export default function SubjectsPage() {
                             <th className="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest">{t("name_en")}</th>
                             <th className="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest text-right">{t("name_ar")}</th>
                             <th className="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest text-center">{t("status")}</th>
-                            <th className="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest text-center">Stats</th>
+                            <th className="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest text-center">{t("stats_col")}</th>
                             <th className="px-6 py-4 text-xs font-black text-slate-400 uppercase tracking-widest text-right">{t("actions")}</th>
                         </tr>
                     </thead>
@@ -132,13 +133,13 @@ export default function SubjectsPage() {
                                     <td className="px-6 py-4 text-center">
                                         <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${subject.isEnabled ? "bg-emerald-100 text-emerald-600" : "bg-slate-100 text-slate-400"
                                             }`}>
-                                            {subject.isEnabled ? t("is_enabled") : "Disabled"}
+                                            {subject.isEnabled ? t("is_enabled") : t("disabled")}
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 text-center">
                                         <div className="flex justify-center gap-4 text-xs font-bold text-slate-400">
-                                            <span>{subject._count?.quizzes} Qs</span>
-                                            <span>{subject._count?.submissions} Hits</span>
+                                            <span>{subject._count?.quizzes} {t("quizzes_count")}</span>
+                                            <span>{subject._count?.submissions} {t("submissions_count")}</span>
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 text-right">

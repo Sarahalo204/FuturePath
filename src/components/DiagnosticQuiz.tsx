@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "@/navigation";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import { Calculator, Atom, Microscope, BookOpen, ChevronRight, CheckCircle2, AlertCircle, Loader2, Lightbulb } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
@@ -23,7 +23,6 @@ const subjects = [
 
 export default function DiagnosticQuiz({ subjectId, locale }: { subjectId?: string; locale: string }) {
     const router = useRouter();
-    const locale = useLocale();
     const t = useTranslations("Landing");
     const diagT = useTranslations("Diagnostic");
     const navT = useTranslations("Navigation");
@@ -304,31 +303,49 @@ export default function DiagnosticQuiz({ subjectId, locale }: { subjectId?: stri
                         key="all-finished"
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="glass-panel p-12 text-center space-y-8 bg-blue-50/50 border-blue-100"
+                        className="glass-panel p-12 text-center space-y-8 bg-white/90 border-blue-100"
                     >
-                        <div className="w-24 h-24 bg-blue-100 rounded-3xl flex items-center justify-center mx-auto text-blue-600 shadow-xl shadow-blue-500/10">
+                        <div className="w-24 h-24 bg-emerald-100 rounded-3xl flex items-center justify-center mx-auto text-emerald-600 shadow-xl shadow-emerald-500/10">
                             <CheckCircle2 className="w-12 h-12" />
                         </div>
                         <div className="space-y-3">
                             <h2 className="text-4xl font-black text-slate-800 leading-tight">
                                 {diagT("awesome_complete")}
                             </h2>
-                            <p className="text-slate-600 font-semibold text-lg max-w-sm mx-auto">
+                            <p className="text-slate-500 font-medium text-lg max-w-md mx-auto">
                                 {diagT("analyzing_results_desc")}
                             </p>
                         </div>
-                        <button
-                            onClick={() => submitResults()}
-                            disabled={isSubmitting}
-                            className={cn(
-                                "px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold shadow-2xl shadow-blue-500/30 transition-all text-xl",
-                                isSubmitting && "opacity-50 cursor-not-allowed grayscale"
-                            )}
-                        >
-                            {isSubmitting
-                                ? diagT("analyzing_results_btn")
-                                : diagT("view_path_btn")}
-                        </button>
+
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                            {/* Primary: Generate roadmap */}
+                            <button
+                                onClick={() => submitResults()}
+                                disabled={isSubmitting}
+                                className={cn(
+                                    "px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold shadow-xl shadow-blue-500/20 transition-all flex items-center gap-3 text-lg",
+                                    isSubmitting && "opacity-50 cursor-not-allowed"
+                                )}
+                            >
+                                {isSubmitting
+                                    ? diagT("analyzing_results_btn")
+                                    : diagT("view_path_btn")}
+                                {!isSubmitting && <ChevronRight className="w-5 h-5 rtl:rotate-180" />}
+                                {isSubmitting && <Loader2 className="w-5 h-5 animate-spin" />}
+                            </button>
+
+                            {/* Secondary: View results only */}
+                            <button
+                                onClick={() => submitResults()}
+                                disabled={isSubmitting}
+                                className={cn(
+                                    "px-8 py-4 bg-white hover:bg-slate-50 text-slate-700 rounded-2xl font-bold border-2 border-slate-200 transition-all flex items-center gap-3 text-lg",
+                                    isSubmitting && "opacity-50 cursor-not-allowed"
+                                )}
+                            >
+                                {diagT("view_results_btn")}
+                            </button>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>

@@ -1,5 +1,9 @@
 {
   "/[locale]/auth/login/page": "app/[locale]/auth/login/page.js",
+  "/[locale]/auth/signup/page": "app/[locale]/auth/signup/page.js",
+  "/[locale]/dashboard/page": "app/[locale]/dashboard/page.js",
+  "/[locale]/diagnostic/page": "app/[locale]/diagnostic/page.js",
   "/[locale]/page": "app/[locale]/page.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js"
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/api/auth/register/route": "app/api/auth/register/route.js"
 }

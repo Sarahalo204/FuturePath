@@ -1,7 +1,7 @@
 # FuturePath AI - Requirements
 
 ## Core Tech Stack
-- **Framework**: Next.js 16.1.6 (App Router)
+- **Framework**: Next.js 15.0.0 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **Icons**: Lucide React

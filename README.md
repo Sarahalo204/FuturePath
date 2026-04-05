@@ -1,7 +1,5 @@
-# 🚀 FuturePath AI
+# FuturePath AI
 **Discover your Perfect Academic Journey.**
-
-Live Demo: [future-path-ten.vercel.app](https://future-path-ten.vercel.app/en)
 
 ---
 
@@ -10,7 +8,6 @@ Live Demo: [future-path-ten.vercel.app](https://future-path-ten.vercel.app/en)
 
 ## ✨ Key Features
 * **AI-Powered Diagnostics:** Custom dynamically generated assessments in Biology, Physics, Math, Chemistry, and Languages to identify knowledge gaps.
-* **Smart Language Detection:** Language subjects automatically enforce quiz content in their native language (e.g., English), regardless of the UI's locale.
 * **Personalized SmartPaths:** Dynamic learning roadmaps generated based on individual quiz results to strengthen academic performance, with targeted learning resources.
 * **University Major Prediction:** Advanced AI analysis to predict the top 5 ideal University Majors based on holistic student performance and interests.
 * **Premium Modern UI:** A sleek Emerald Green & Charcoal Black theme featuring Glassmorphism effects for a professional and engaging user experience.
@@ -23,6 +20,10 @@ Live Demo: [future-path-ten.vercel.app](https://future-path-ten.vercel.app/en)
 * **Backend & Auth:** [Auth.js (NextAuth) v5](https://authjs.dev/) & [Prisma ORM](https://www.prisma.io/).
 * **Database:** [PostgreSQL](https://www.postgresql.org/) (hosted on Supabase / Neon).
 * **AI Engine:** OpenRouter API (Gemini 2.0 Flash) for generative logic.
+
+
+Live Demo: [future-path-ten.vercel.app](https://future-path-ten.vercel.app/en)
+
 
 ## ⚙️ Quick Start
 1. **Clone & Install:**

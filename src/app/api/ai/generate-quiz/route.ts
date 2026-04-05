@@ -64,9 +64,24 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        // 2. Generate questions via AI
-        const prompt = generateQuizPrompt(subjectRecord.nameEn, language, count, difficulty);
-        const questions = await processAIRequest<QuizQuestion[]>(prompt, language);
+        // 2. Determine target language for quiz (override if it's a language subject)
+        let quizLanguage = language;
+        const lowerEnName = subjectRecord.nameEn.toLowerCase();
+        const lowerArName = subjectRecord.nameAr.toLowerCase();
+
+        if (lowerEnName.includes("english") || lowerArName.includes("انجليزي") || lowerArName.includes("إنجليزية")) {
+            quizLanguage = "en";
+        } else if (lowerEnName.includes("arabic") || lowerArName.includes("عربي") || lowerArName.includes("عربية")) {
+            quizLanguage = "ar";
+        } else if (lowerEnName.includes("french") || lowerArName.includes("فرنسي")) {
+            quizLanguage = "fr";
+        } else if (lowerEnName.includes("spanish") || lowerArName.includes("اسباني")) {
+            quizLanguage = "es";
+        }
+
+        // 3. Generate questions via AI
+        const prompt = generateQuizPrompt(subjectRecord.nameEn, quizLanguage, count, difficulty);
+        const questions = await processAIRequest<QuizQuestion[]>(prompt, quizLanguage);
 
         // 3. Save the specific Quiz instance
         const quiz = await prisma.quiz.create({

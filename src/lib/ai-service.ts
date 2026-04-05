@@ -35,8 +35,13 @@ const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 const MODEL_NAME = process.env.AI_MODEL_NAME || "google/gemini-2.0-flash-001";
 const ENDPOINT = "https://openrouter.ai/api/v1/chat/completions";
 
+function getLanguageName(locale: string): string {
+    const map: Record<string, string> = { ar: "Arabic", en: "English", fr: "French", es: "Spanish", de: "German" };
+    return map[locale.toLowerCase()] || "English";
+}
+
 export function generateQuizPrompt(subject: string, language: string, count: number = 10, difficulty: string = "Medium") {
-    const langPrompt = language === "ar" ? "Arabic" : "English";
+    const langPrompt = getLanguageName(language);
 
     return `
     Act as an expert educator specializing in the ${subject} core high school curriculum.
@@ -64,7 +69,7 @@ export function generateQuizPrompt(subject: string, language: string, count: num
 }
 
 export function generateRoadmapPrompt(results: DiagnosticResult[], language: string) {
-    const langPrompt = language === "ar" ? "Arabic" : "English";
+    const langPrompt = getLanguageName(language);
     const performanceSummary = results
         .map((r) => `${r.subject}: ${r.score}% (Weaknesses: ${r.answers.filter(a => !a.isCorrect).map(a => a.topic).join(", ")})`)
         .join("\n");
@@ -98,7 +103,7 @@ export function generateRoadmapPrompt(results: DiagnosticResult[], language: str
 }
 
 export function generateCareerPredictionPrompt(results: { subject: string; score: number }[], language: string) {
-    const langPrompt = language === "ar" ? "Arabic" : "English";
+    const langPrompt = getLanguageName(language);
     const performanceSummary = results
         .map((r) => `${r.subject}: ${r.score}%`)
         .join(", ");
@@ -140,7 +145,7 @@ export async function processAIRequest<T>(prompt: string, locale: string = "en")
         throw new Error("OPENROUTER_API_KEY is not defined in environment variables.");
     }
 
-    const langName = locale === "ar" ? "Arabic" : "English";
+    const langName = getLanguageName(locale);
 
     return withRetry(async () => {
         const response = await fetch(ENDPOINT, {

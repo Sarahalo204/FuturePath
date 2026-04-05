@@ -1,70 +1,60 @@
-# FuturePath
+# 🚀 FuturePath AI
 **Discover your Perfect Academic Journey.**
 
-**FuturePath AI** هي منصة تعليمية ذكية تعتمد على الذكاء الاصطناعي لمساعدة الطلاب في تحديد مساراتهم الأكاديمية والمهنية بدقة. من خلال تقييمات شاملة، توفر المنصة خطط تعلم مخصصة (Personalized Roadmaps) وتنبؤات مهنية مبنية على البيانات.
+Live Demo: [future-path-ten.vercel.app](https://future-path-ten.vercel.app/en)
 
 ---
 
-## ✨ المميزات الرئيسية (Features)
+## 🌟 Overview
+**FuturePath AI** is a cutting-edge EdTech platform designed to empower high school students. By leveraging Artificial Intelligence, the platform analyzes student performance through smart diagnostics to generate personalized learning roadmaps and predict the most suitable **University Majors**.
 
-* **AI-Powered Diagnostics:** اختبارات ذكية لتقييم مستوى الطالب في المواد العلمية المختلفة.
-* **Personalized SmartPaths:** توليد مسارات تعليمية مخصصة بناءً على نقاط القوة والضعف.
-* **Career Prediction:** نظام ذكاء اصطناعي يتوقع المسارات المهنية الأنسب للطالب.
-* **Modern Branding:** واجهة مستخدم عصرية باللونين الأسود والأخضر الزمردي وتصميم Glassmorphism.
-* **Bi-lingual Support:** دعم كامل للغتين العربية والإنجليزية مع نظام توجيه ذكي (RTL/LTR).
+## ✨ Key Features
+* **AI-Powered Diagnostics:** Custom dynamically generated assessments in Biology, Physics, Math, Chemistry, and Languages to identify knowledge gaps.
+* **Smart Language Detection:** Language subjects automatically enforce quiz content in their native language (e.g., English), regardless of the UI's locale.
+* **Personalized SmartPaths:** Dynamic learning roadmaps generated based on individual quiz results to strengthen academic performance, with targeted learning resources.
+* **University Major Prediction:** Advanced AI analysis to predict the top 5 ideal University Majors based on holistic student performance and interests.
+* **Premium Modern UI:** A sleek Emerald Green & Charcoal Black theme featuring Glassmorphism effects for a professional and engaging user experience.
+* **Full Bilingual Support:** Seamless switching between Arabic (RTL) and English (LTR) interfaces using Next-Intl.
 
----
+## 🛠 Tech Stack
+* **Frontend:** [Next.js 16](https://nextjs.org/) (App Router & Turbopack) & TypeScript.
+* **Styling:** Tailwind CSS & Framer Motion.
+* **I18n:** [next-intl](https://next-intl-docs.vercel.app/) for seamless localization.
+* **Backend & Auth:** [Auth.js (NextAuth) v5](https://authjs.dev/) & [Prisma ORM](https://www.prisma.io/).
+* **Database:** [PostgreSQL](https://www.postgresql.org/) (hosted on Supabase / Neon).
+* **AI Engine:** OpenRouter API (Gemini 2.0 Flash) for generative logic.
 
-## 🛠 التقنيات المستخدمة (Tech Stack)
-
-* **Framework:** [Next.js 16 (App Router)](https://nextjs.org/) مع دعم **Turbopack**.
-* **Language:** TypeScript لضمان استقرار الكود.
-* **Internationalization:** [next-intl](https://next-intl-docs.vercel.app/) لإدارة اللغات.
-* **Authentication:** [Auth.js (NextAuth)](https://authjs.dev/) لتأمين حسابات الطلاب.
-* **Database:** [PostgreSQL](https://www.postgresql.org/) مستضافة على **Neon**.
-* **ORM:** [Prisma](https://www.prisma.io/) مع تطبيق نمط الـ Singleton لضمان استقرار الاتصالات.
-* **Styling:** Tailwind CSS مع مكتبة Framer Motion للحركات التفاعلية.
-
----
-
-## ⚙️ التثبيت والتشغيل (Local Setup)
-
-1.  **نسخ المستودع:**
-    ```bash
-    git clone [https://github.com/Sarahalo204/FuturePath.git](https://github.com/Sarahalo204/FuturePath.git)
-    cd FuturePath
-    ```
-
-2.  **تثبيت المكتبات:**
-    ```bash
-    npm install
-    ```
-
-3.  **إعداد ملف البيئة (`.env`):**
-    قم بإنشاء ملف `.env` في المجلد الرئيسي وأضف القيم التالية:
-    ```env
-    DATABASE_URL="your_neon_database_url?sslmode=require&pgbouncer=true&connection_limit=1"
-    AUTH_SECRET="your_auth_secret"
-    ```
-   
-
-4.  **تحديث قاعدة البيانات وتشغيل السيرفر:**
-    ```bash
-    npx prisma generate
-    npm run dev
-    ```
-
----
-
-## 📂 هيكلة المشروع (Project Structure)
-
-* `src/app/[locale]`: المسارات والصفحات المترجمة.
-* `src/components`: المكونات القابلة لإعادة الاستخدام (Navbar, Footer, DiagnosticQuiz).
-* `messages/`: ملفات الترجمة الرسمية للموقع (ar.json, en.json).
-* `prisma/`: تخطيط قاعدة البيانات (Schema).
+## ⚙️ Quick Start
+1. **Clone & Install:**
+   ```bash
+   git clone https://github.com/Sarahalo204/FuturePath.git
+   cd FuturePath
+   npm install
+   ```
+2. **Environment Setup:** Configure your `.env` file:
+   ```env
+   # Database Connection
+   DATABASE_URL="your_postgresql_connection_string"
+   
+   # Authentication
+   AUTH_SECRET="your_secure_random_string"
+   
+   # AI Integration
+   OPENROUTER_API_KEY="your_openrouter_api_key"
+   AI_MODEL_NAME="google/gemini-2.0-flash-001"
+   ```
+3. **Database Sync:**
+   ```bash
+   npx prisma generate
+   npx prisma db push
+   ```
+4. **Run Dev:**
+   ```bash
+   npm run dev
+   ```
 
 ---
 
-### 👩‍💻 تطوير:
-**Sarah Alowjan**
-**Aryaf Alotaibi**
+## 👩‍💻 Development Team
+* **Sarah Alowjan**
+* **Aryaf Alotaibi**

@@ -1,6 +1,8 @@
 # FuturePath AI
 **Discover your Perfect Academic Journey.**
 
+Live Demo: [future-path-ten.vercel.app](https://future-path-ten.vercel.app/en)
+
 ---
 
 ## 🌟 Overview
@@ -20,10 +22,6 @@
 * **Backend & Auth:** [Auth.js (NextAuth) v5](https://authjs.dev/) & [Prisma ORM](https://www.prisma.io/).
 * **Database:** [PostgreSQL](https://www.postgresql.org/) (hosted on Supabase / Neon).
 * **AI Engine:** OpenRouter API (Gemini 2.0 Flash) for generative logic.
-
-
-Live Demo: [future-path-ten.vercel.app](https://future-path-ten.vercel.app/en)
-
 
 ## ⚙️ Quick Start
 1. **Clone & Install:**

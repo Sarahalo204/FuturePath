@@ -19,24 +19,48 @@ export async function POST(req: NextRequest) {
 
         let subjectRecord;
         try {
-            subjectRecord = await prisma.subject.upsert({
+            // Try to find existing subject first
+            subjectRecord = await prisma.subject.findUnique({
                 where: { nameEn: displayEng },
-                update: {},
-                create: {
-                    nameEn: displayEng,
-                    nameAr: normalizedKey === "math" ? "الرياضيات" :
-                        normalizedKey === "physics" ? "الفيزياء" :
-                            normalizedKey === "biology" ? "الأحياء" :
-                                normalizedKey === "chemistry" ? "الكيمياء" :
-                                    normalizedKey === "english" ? "اللغة الإنجليزية" : displayEng,
-                    isEnabled: true
-                },
             });
+
+            // If not found, create it (with race condition handling)
+            if (!subjectRecord) {
+                try {
+                    subjectRecord = await prisma.subject.create({
+                        data: {
+                            nameEn: displayEng,
+                            nameAr: normalizedKey === "math" ? "الرياضيات" :
+                                normalizedKey === "physics" ? "الفيزياء" :
+                                    normalizedKey === "biology" ? "الأحياء" :
+                                        normalizedKey === "chemistry" ? "الكيمياء" :
+                                            normalizedKey === "english" ? "اللغة الإنجليزية" : displayEng,
+                            isEnabled: true
+                        },
+                    });
+                } catch (createError: any) {
+                    // If another request already created it, just find it
+                    if (createError.code === "P2002") {
+                        subjectRecord = await prisma.subject.findUnique({
+                            where: { nameEn: displayEng },
+                        });
+                    } else {
+                        throw createError;
+                    }
+                }
+            }
         } catch (dbError) {
             console.error("Prisma Connection Error (Quiz Gen):", dbError);
             return NextResponse.json(
                 { error: "Database connection failed. Please check if your database server is running." },
                 { status: 503 }
+            );
+        }
+
+        if (!subjectRecord) {
+            return NextResponse.json(
+                { error: "Subject could not be found or created." },
+                { status: 500 }
             );
         }
 

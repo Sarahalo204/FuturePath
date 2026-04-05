@@ -8,7 +8,7 @@
 - **Animations**: Framer Motion
 - **Internationalization**: next-intl
 - **Authentication**: NextAuth.js (Auth.js)
-- **Database**: Prisma ORM (SQLite/PostgreSQL)
+- **Database**: Prisma O9RM (SQLite/PostgreSQL)
 - **Backend API**: Next.js Route Handlers
 - **AI Integration**: OpenRouter API (Gemini 2.0 Flash)
 

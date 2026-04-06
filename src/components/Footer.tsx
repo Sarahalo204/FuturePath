@@ -79,13 +79,15 @@ export default async function Footer() {
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="mt-16 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="mt-16 pt-8 border-t border-slate-800 flex flex-col items-center justify-center gap-2">
                     <p className="text-xs text-slate-500">
                         © {new Date().getFullYear()} FuturePath. {t("copyright")}
                     </p>
-                    <div className="flex items-center gap-1 text-xs text-slate-600">
-                        <span>Powered by</span>
-                        <span className="font-bold text-slate-400">AI</span>
+                    <div className="flex items-center gap-1 text-xs text-slate-600 mb-2">
+                        <span>Developed by</span>
+                        <span className="font-bold text-slate-300">Sarah Alowjan</span>
+                        <span>&amp;</span>
+                        <span className="font-bold text-slate-300">Aryaf Alotaibi</span>
                     </div>
                 </div>
             </div>
